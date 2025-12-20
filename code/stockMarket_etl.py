@@ -42,7 +42,7 @@ def run_stockMarket_ETL():
     print(df.info())
     print(df.head())
 
-    df.to_csv("./data/IBM_stocks.csv")
+    df.to_csv("s3://linal-stockmarket-airflow/IBM_stocks.csv", index=False)
 
 
 
