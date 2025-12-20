@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import requests
 import pandas as pd
+import json
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -21,6 +22,25 @@ url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&a
 r = requests.get(url)
 data = r.json()
 
-df = pd.DataFrame(data)
+data1= data["Time Series (Daily)"] 
 
-print(df)
+# Convert to DataFrame
+df = pd.DataFrame.from_dict(data1, orient="index")
+
+# Rename columns (remove numeric prefixes)
+df.columns = ["open", "high", "low", "close", "volume"]
+
+df["open"] = df["open"].astype("float")
+df["high"] = df["high"].astype("float")
+df["low"] = df["low"].astype("float")
+df["close"] = df["close"].astype("float")
+df["volume"] = df["volume"].astype("int")
+
+
+print(df.info())
+print(df.head())
+
+df.to_csv("./data/IBM_stocks.csv")
+
+
+
