@@ -39,9 +39,6 @@ def run_stockMarket_ETL():
     df["volume"] = df["volume"].astype("int")
 
 
-    print(df.info())
-    print(df.head())
-
     df.to_csv("s3://linal-stockmarket-airflow/IBM_stocks.csv", index=False)
 
 
